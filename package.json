@@ -10,9 +10,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/node": "^25.5.0",
+    "async": "^3.2.6",
     "readline-sync": "^1.4.10",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "@types/async": "^3.2.25",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.5.0",
+    "@types/readline-sync": "^1.4.8"
   }
 }

@@ -1,4 +1,4 @@
-// src/model/MaterialArtistico.ts
+
 import { Produto } from "./Produto";
 
 export class MaterialArtistico extends Produto {

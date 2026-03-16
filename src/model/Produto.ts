@@ -1,7 +1,6 @@
-// src/model/Produto.ts
 export abstract class Produto {
   private static contador = 0;
-  private _id: number;  
+  private _id: number;
   private _nome: string;
   private _categoria: string;
   private _preco: number;
@@ -9,18 +8,16 @@ export abstract class Produto {
 
   constructor(nome: string, categoria: string, preco: number, quantidade: number) {
     Produto.contador++;
-    this._id = Produto.contador; 
+    this._id = Produto.contador;
     this._nome = nome;
     this._categoria = categoria;
     this._preco = preco;
     this._quantidade = quantidade;
   }
 
- 
   public getId(): number {
     return this._id;
   }
-
 
   public getNome(): string { return this._nome; }
   public setNome(nome: string): void { this._nome = nome; }

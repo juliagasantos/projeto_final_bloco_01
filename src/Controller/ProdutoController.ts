@@ -14,33 +14,35 @@ export class ProdutoController implements ProdutoRepository {
       console.log("Nenhum produto cadastrado.");
     } else {
       this.produtos.forEach((p) => {
-        console.log(p.detalhesDoProduto());
+        console.log(
+          `ID: ${p.getId()}\nNome: ${p.getNome()}\nCategoria: ${p.getCategoria()}\nPreço: ${p.getPreco()}\nQuantidade: ${p.getQuantidade()}\n------------------------`
+        );
       });
     }
     return this.produtos;
   }
 
-  // BUSCAR POR ID REAL
   buscar(id: number): Produto | undefined {
     return this.produtos.find((p) => p.getId() === id);
   }
 
   atualizar(id: number, produtoAtualizado: Produto): void {
     const index = this.produtos.findIndex((p) => p.getId() === id);
-    if (index === -1) {
-      throw new Error(`Produto com ID ${id} não encontrado.`);
-    }
+    if (index === -1) throw new Error(`Produto com ID ${id} não encontrado.`);
+
+    // Garantia explícita que não é undefined
+    const produtoExistente = this.produtos[index];
+    if (!produtoExistente) throw new Error(`Produto com ID ${id} não encontrado.`);
+
     this.produtos[index] = produtoAtualizado;
     console.log(`Produto com ID ${id} atualizado com sucesso!`);
   }
 
   deletar(id: number): void {
-    const index = this.produtos.findIndex((p) => p.getId() === id);
-    if (index === -1) {
-      throw new Error(`Produto com ID ${id} não encontrado.`);
-    }
-    const nome = this.produtos[index].getNome();
-    this.produtos.splice(index, 1);
-    console.log(`Produto "${nome}" deletado com sucesso!`);
-  }
+  const index = this.produtos.findIndex((p) => p.getId() === id);
+  if (index === -1) throw new Error(`Produto com ID ${id} não encontrado.`);
+  const produto = this.produtos[index]!;
+  this.produtos.splice(index, 1);
+  console.log(`Produto "${produto.getNome()}" deletado com sucesso!`);
+}
 }

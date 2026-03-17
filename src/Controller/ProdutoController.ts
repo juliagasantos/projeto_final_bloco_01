@@ -6,7 +6,7 @@ export class ProdutoController implements ProdutoRepository {
 
   cadastrar(produto: Produto): void {
     this.produtos.push(produto);
-    console.log(`Produto "${produto.getNome()}" cadastrado com sucesso!`);
+    console.log(`Produto "${produto.Nome}" cadastrado com sucesso!`);
   }
 
   listar(): Produto[] {
@@ -15,7 +15,7 @@ export class ProdutoController implements ProdutoRepository {
     } else {
       this.produtos.forEach((p) => {
         console.log(
-          `ID: ${p.getId()}\nNome: ${p.getNome()}\nCategoria: ${p.getCategoria()}\nPreço: ${p.getPreco()}\nQuantidade: ${p.getQuantidade()}\n------------------------`
+          `ID: ${p.Id}\nNome: ${p.Nome}\nCategoria: ${p.Categoria}\nPreço: ${p.Preco}\nQuantidade: ${p.Quantidade}\nAtivo: ${p.Ativo}\n------------------------`,
         );
       });
     }
@@ -23,26 +23,32 @@ export class ProdutoController implements ProdutoRepository {
   }
 
   buscar(id: number): Produto | undefined {
-    return this.produtos.find((p) => p.getId() === id);
+    return this.produtos.find((p) => p.Id === id);
   }
 
-  atualizar(id: number, produtoAtualizado: Produto): void {
-    const index = this.produtos.findIndex((p) => p.getId() === id);
-    if (index === -1) throw new Error(`Produto com ID ${id} não encontrado.`);
+  atualizar(id: number, produtoAtualizado: Partial<Produto>): void {
+  const index = this.produtos.findIndex((p) => p.Id === id);
+  if (index === -1) throw new Error(`Produto com ID ${id} não encontrado.`);
 
-    // Garantia explícita que não é undefined
-    const produtoExistente = this.produtos[index];
-    if (!produtoExistente) throw new Error(`Produto com ID ${id} não encontrado.`);
+  const produtoExistente = this.produtos[index]!;
 
-    this.produtos[index] = produtoAtualizado;
-    console.log(`Produto com ID ${id} atualizado com sucesso!`);
+  produtoExistente.Nome = produtoAtualizado.Nome ?? produtoExistente.Nome;
+  produtoExistente.Categoria = produtoAtualizado.Categoria ?? produtoExistente.Categoria;
+  produtoExistente.Preco = produtoAtualizado.Preco ?? produtoExistente.Preco;
+  produtoExistente.Quantidade = produtoAtualizado.Quantidade ?? produtoExistente.Quantidade;
+
+  if (produtoAtualizado.Ativo === false) {
+    produtoExistente.Ativo = false;
   }
+
+  console.log(`Produto com ID ${id} atualizado com sucesso!`);
+}
 
   deletar(id: number): void {
-  const index = this.produtos.findIndex((p) => p.getId() === id);
-  if (index === -1) throw new Error(`Produto com ID ${id} não encontrado.`);
-  const produto = this.produtos[index]!;
-  this.produtos.splice(index, 1);
-  console.log(`Produto "${produto.getNome()}" deletado com sucesso!`);
-}
+    const index = this.produtos.findIndex((p) => p.Id === id);
+    if (index === -1) throw new Error(`Produto com ID ${id} não encontrado.`);
+    const produto = this.produtos[index]!;
+    this.produtos.splice(index, 1);
+    console.log(`Produto "${produto.Nome}" deletado com sucesso!`);
+  }
 }
